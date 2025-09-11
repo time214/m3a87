@@ -1,0 +1,87 @@
+[File Description Block]
+FileKey = 5443-1850
+[QA Setting Block]
+strIsQAFile = 0
+StartFunctionNum = -1
+[Document Block]
+strDllFileName = MT8099NSPR_XA87_00_FT_EWT.dll
+iPgsVersion = 1002
+strOrignDate = 2017-07-10 17:34:12
+strAdapter = 
+strDutName = 
+strComment = ""
+iUserStrCount = 0
+[DataSheet Variable Block]
+sSiteCount= 1
+TestFunctionCount = 13
+FUNCTION = Continuity,1,7
+    EN_GND, preOSEN, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    VCC_GND, preOSVCC, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    RT_GND, preOSRT, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    FB_GND, preOSFB, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    BST_GND, preOSBST, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    SW_GND, preOSSW, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    VIN_GND, preOSVIN, 1,1,-0.7, , "V",V, "0.0000",1,0, ""
+FUNCTION = RegulatorV,1,1
+    Vreg, VCC, 1,1,4.85,5.15, "V",V, "0.0000",1,0, ""
+FUNCTION = UVLO,1,3
+    UVLO_Rising, VCC_UVLOH, 1,1,3.75,4.25, "V",V, "0.0000",1,1, ""
+        goPassFail,goPassFail, 0, 0, "0", "", "0", "", ""
+    UVLO_Falling, VCC_UVLOL, 1,1, , , "V",V, "0.0000",1,0, ""
+    UVLO_VHYS, VCC_UVLOHYS, 1,1,200,400, "mV",mV, "0.0000",1,0, ""
+FUNCTION = SupplyCurrent,1,3
+    iCL_vcc, preIVCC, 1,1, ,95, "mA",mA, "0.0000",1,0, "VIN=12"
+    Quiescent, preIQ, 1,1, ,40, "uA",uA, "0.0000",1,0, "VIN=24"
+    Shutdown, preISD48, 1,1, ,15, "uA",uA, "0.0000",1,0, ""
+FUNCTION = FuncEN,1,3
+    VENH, VEN_H, 1,1,1.1,1.3, "V",V, "0.0000",1,1, ""
+        goPassFail,goPassFail, 0, 0, "0", "", "0", "", ""
+    VNEL, VEN_L, 1,1,1.05,1.25, "V",V, "0.0000",1,0, ""
+    VENHYS, VEN_Hys, 1,1,5,50, "mV",mV, "0.0000",1,0, ""
+FUNCTION = FuncEN2,1,2
+    IEN1, IENUP1, 1,1, ,0.9, "uA",uA, "0.0000",1,0, ""
+    IEN2, IENUP2, 1,1, ,15, "uA",uA, "0.0000",1,0, ""
+FUNCTION = ReferenceVoltage,1,2
+    VREF, VREF, 1,1,1.1,1.3, "V",V, "0.0000",1,0, ""
+    VBG, VBG, 1,1,1.1,1.3, "V",V, "0.0000",1,0, ""
+FUNCTION = CurrentFB,1,1
+    FBCurrent, IFB, 1,1, ,50, "nA",nA, "0.0000",1,0, ""
+FUNCTION = HSide,1,4
+    RON_HS, HSRdsON, 1,1,300,600, "mohm",mohm, "0.0000",1,0, ""
+    iPK, IPK, 1,1,1.5,2.5, "A",A, "0.0000",1,0, ""
+    HSLkg1, HSLkg28V, 1,1,0,1, "uA",uA, "0.0000",1,0, "limit high 1uA"
+    HSLkg2, HSLkg100V, 1,1,0,1, "uA",uA, "0.0000",1,0, "limit high 1uA"
+FUNCTION = LSide,1,4
+    RON_LS, LSRdsON, 1,1,200,400, "mohm",mohm, "0.0000",1,0, ""
+    Valley, IValley, 1,1,1.0,2.0, "A",A, "0.0000",1,0, ""
+    IZero, IZX, 1,1,10,100, "mA",mA, "0.0000",1,0, ""
+    LSLkg, LSLKG, 1,1,0,1, "uA",uA, "0.0000",1,0, "limit high 1uA"
+FUNCTION = Switching,1,3
+    Freq, FREQ, 1,1,400,600, "Khz",Khz, "0.0000",1,0, ""
+    ON, TON, 1,1, , , "us",us, "0.0000",1,0, ""
+    OFF, TOFF, 1,1, , , "us",us, "0.0000",1,0, ""
+FUNCTION = BOOST,1,3
+    BSTOK_H, BSTOK_H, 1,1,2.22,2.32, "V",V, "0.0000",1,1, ""
+        goPassFail,goPassFail, 0, 0, "0", "", "0", "", ""
+    BSTOK_L, BSTOK_L, 1,1,2.14,2.25, "V",V, "0.0000",1,0, ""
+    BSTOK_HYS, BSTOK_Hys, 1,1,10,100, "mV",mV, "0.0000",1,0, ""
+FUNCTION = pContinuity,1,7
+    EN_GND, postOSEN, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    VCC_GND, postOSVCC, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    RT_GND, postOSRT, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    FB_GND, postOSFB, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    BST_GND, postOSBST, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    SW_GND, postOSSW, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+    VIN_GND, postOSVIN, 1,1,-0.7,-0.4, "V",V, "0.0000",1,0, ""
+[Station Setting Block]
+ProgramType = 0
+StationCount = 1
+StationStatus = 1,1,1,1,1,1,1,1,
+StationInterval = 0,0,0,0,0,0,0,0,
+StationNumber = 0,0,0,0,0,0,0,0,0,0,0,0,0,
+[Bin Definition Block]
+AllBinCount = 2
+1,1,3,0, "", "", "", "", "Pass__Default"
+4,4,4,0, "", "", "", "", "Fail__Default"
+[File MD5 Block]
+MD5 = 33046F6098C9BB94C1FAF0621AB17392
