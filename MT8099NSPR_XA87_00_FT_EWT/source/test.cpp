@@ -17,7 +17,6 @@
 #include "stdafx.h"
 #include "math.h"
 #define SITENUM	2
-//#define PackTrimming
 
 void packagetrim(int time);
 short site = 0, flag[SITENUM] = { 0, 0 };
@@ -43,28 +42,27 @@ FOVI VIN2_FOVI13		(13, "VINSeriesUP");    //						VINs	=Vsw+Vvin
 QTMU_PLUS qtmu0			(0);
 CBIT128 rlyC;
 
-short Trimbit1[SITENUM] = { 0, 0 };		// vbg -4.5mv
-short Trimbit2[SITENUM] = { 0, 0 };		// vbg -9.0mv
-short Trimbit3[SITENUM] = { 0, 0 };		// vbg -8.0mv
-short Trimbit4[SITENUM] = { 0, 0 };		// vbg 36.0mv
-short Trimbit5[SITENUM] = { 0, 0 };		// IPK1 10%
-short Trimbit6[SITENUM] = { 0, 0 };		// IPK2 -10%
-short Trimbit7[SITENUM] = { 1, 1 };		// IQ -5uA
-short Trimbit8[SITENUM] = { 0, 0 };		// Valley1 10%
-short Trimbit9[SITENUM] = { 0, 0 };		// TBTADD, CLKH
-short Trimbit10[SITENUM]= { 0, 0 };		// FPWM
-short Trimbit11[SITENUM]= { 0, 0 };		// BSTCMP
-short Trimbit12[SITENUM]= { 0, 0 };		// DISACLK
-short Trimbit13[SITENUM]= { 0, 0 };		// BSTSLP
-short Trimbit14[SITENUM]= { 0, 0 };		// EABAIS
-short Trimbit15[SITENUM]= { 1, 1 };		// WAIT
-short Trimbit16[SITENUM]= { 1, 1 };		// FREEZE BIT
+////short Trimbit1[SITENUM] = { 0, 0 };		// vbg -4.5mv
+////short Trimbit2[SITENUM] = { 0, 0 };		// vbg -9.0mv
+////short Trimbit3[SITENUM] = { 0, 0 };		// vbg -8.0mv
+////short Trimbit4[SITENUM] = { 0, 0 };		// vbg 36.0mv
+////short Trimbit5[SITENUM] = { 0, 0 };		// IPK1 10%
+////short Trimbit6[SITENUM] = { 0, 0 };		// IPK2 -10%
+////short Trimbit7[SITENUM] = { 1, 1 };		// IQ -5uA
+////short Trimbit8[SITENUM] = { 0, 0 };		// Valley1 10%
+////short Trimbit9[SITENUM] = { 0, 0 };		// TBTADD, CLKH
+////short Trimbit10[SITENUM]= { 0, 0 };		// FPWM
+////short Trimbit11[SITENUM]= { 0, 0 };		// BSTCMP
+////short Trimbit12[SITENUM]= { 0, 0 };		// DISACLK
+////short Trimbit13[SITENUM]= { 0, 0 };		// BSTSLP
+////short Trimbit14[SITENUM]= { 0, 0 };		// EABAIS
+////short Trimbit15[SITENUM]= { 1, 1 };		// WAIT
+////short Trimbit16[SITENUM]= { 1, 1 };		// FREEZE BIT
 
 DUT_API void HardWareCfg()	{
 	/*For example: four channels dvi to config two sites*/
 	/*StsSetModuleToSite(MD_DVI400, SITE_1, 0, 1, -1);
 		StsSetModuleToSite(MD_DVI400, SITE_2, 2, 3, -1);*/
-
 	// FPVI
 	StsSetModuleToSite(MD_FPVI10, SITE_1, 0, 1, 2, 3, -1);	// SITE1, IDC1,2
 	StsSetModuleToSite(MD_FPVI10, SITE_2, 4, 5, 6, 7, -1);	// SITE2, IDC3,4 
@@ -124,12 +122,13 @@ void pwr_off(void)	{
 	VIN2_FOVI13.Set		(FV,  float(0), FOVI_5V,	FOVI_10MA,		RELAY_OFF);
 }
 void FreshSiteFlagInit(void)	{
-	for (site = 0; site < SITENUM; site++) 
+	short z = 0;
+	for (z = 0; z < SITENUM; z++) 
 		flag[site] = 1;
   StsGetSiteStatus(sitesta, SITENUM);
-  for (site = 0; site < SITENUM; site++) {
-		if (sitesta[site]) 
-			flag[site] = 0;
+  for (z = 0; z < SITENUM; z++) {
+		if (sitesta[z]) 
+			flag[z] = 0;
   }
 }
 /************************************************************************/
@@ -158,13 +157,13 @@ DUT_API void SetupFailSite(const unsigned char*byFailSite)	{
 // ******************************************************************* Continuity *******************************************************************
 DUT_API int Continuity(short funcindex, LPCTSTR funclabel)	{
   //{{AFX_STS_PARAM_PROTOTYPES
-    CParam *EN_GND = StsGetParam(funcindex,"EN_GND");
-    CParam *VCC_GND = StsGetParam(funcindex,"VCC_GND");
-    CParam *RT_GND = StsGetParam(funcindex,"RT_GND");
-    CParam *FB_GND = StsGetParam(funcindex,"FB_GND");
-    CParam *BST_GND = StsGetParam(funcindex,"BST_GND");
-    CParam *SW_GND = StsGetParam(funcindex,"SW_GND");
-    CParam *VIN_GND = StsGetParam(funcindex,"VIN_GND");
+  CParam *EN_GND = StsGetParam(funcindex,"EN_GND");
+  CParam *VCC_GND = StsGetParam(funcindex,"VCC_GND");
+  CParam *RT_GND = StsGetParam(funcindex,"RT_GND");
+  CParam *FB_GND = StsGetParam(funcindex,"FB_GND");
+  CParam *BST_GND = StsGetParam(funcindex,"BST_GND");
+  CParam *SW_GND = StsGetParam(funcindex,"SW_GND");
+  CParam *VIN_GND = StsGetParam(funcindex,"VIN_GND");
   //}}AFX_STS_PARAM_PROTOTYPES
 
   // TODO: Add your function code here
@@ -180,7 +179,6 @@ DUT_API int Continuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		EN_GND->SetTestResult(site, 0, EN_FOVI2.GetMeasResult(site, MVRET));
  	EN_FOVI2.Set(FV, 0.0f, FOVI_2V, FOVI_10MA, RELAY_ON);
-
  	// VCC(#2)
  	VCC_FOVI10.Set(FI, -1.0e-3, FOVI_2V, FOVI_10MA, RELAY_ON);
  	delay_us(500);
@@ -188,7 +186,6 @@ DUT_API int Continuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		VCC_GND->SetTestResult(site, 0, VCC_FOVI10.GetMeasResult(site, MVRET));
  	VCC_FOVI10.Set(FV, 0.0, FOVI_2V, FOVI_10MA, RELAY_ON);
-
  	// RT(#3)
  	RT_FOVI6.Set(FI, -1.0e-3, FOVI_2V, FOVI_10MA, RELAY_ON);
  	delay_us(500);
@@ -196,7 +193,6 @@ DUT_API int Continuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		RT_GND->SetTestResult(site, 0, RT_FOVI6.GetMeasResult(site, MVRET));
  	RT_FOVI6.Set(FV, 0.0, FOVI_2V, FOVI_10MA, RELAY_ON);
-
  	// FB(#4)
  	FB_FOVI8.Set(FI, -160.0e-6, FOVI_2V, FOVI_1MA, RELAY_ON);
  	delay_us(500);
@@ -204,7 +200,6 @@ DUT_API int Continuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		FB_GND->SetTestResult(site, 0, FB_FOVI8.GetMeasResult(site, MVRET));
  	FB_FOVI8.Set(FV, 0.0f, FOVI_2V, FOVI_1MA, RELAY_ON);
-
  	// BST(#5)
  	BST_FOVI7.Set(FI, -1.0e-3, FOVI_2V, FOVI_10MA, RELAY_ON);
  	delay_us(500);
@@ -212,7 +207,6 @@ DUT_API int Continuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		BST_GND->SetTestResult(site, 0, BST_FOVI7.GetMeasResult(site, MVRET));
  	BST_FOVI7.Set(FV, 0.0, FOVI_2V, FOVI_10MA, RELAY_ON);
-
  	// SW(#6)
  	SW2_FPVI3.Set(FI, -1.0e-3, FPVI10_2V, FPVI10_10MA, RELAY_ON);
  	delay_us(500);
@@ -220,7 +214,6 @@ DUT_API int Continuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		SW_GND->SetTestResult(site, 0, SW2_FPVI3.GetMeasResult(site, MVRET));
  	SW2_FPVI3.Set(FV, 0.0, FPVI10_2V, FPVI10_10MA, RELAY_ON);
-
  	// VIN(#8)
  	VIN_FPVI0.Set(FI, -0.5e-3, FPVI10_2V, FPVI10_10MA, RELAY_ON);
  	delay_us(500);
@@ -248,13 +241,11 @@ DUT_API int RegulatorV(short funcindex, LPCTSTR funclabel)	{
   // TODO: Add your function code here
 	double RegVCC[SITENUM] = { 0.0f };
 	 
- 	rlyC.SetOn(RT500K, CapVCC, CapVIN, CapBST,
-		         ViVIN, ViEN, ViFB, ViVCC, -1);
+ 	rlyC.SetOn(RT500K, CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, ViVCC, -1);
  	delay_ms(2);
 	// VIN = 12v
 	VIN_FPVI0.Set(FV, 12.0f, FPVI10_20V, FPVI10_10MA, RELAY_ON);
 	delay_us(300);
-
 	// VCC measurement, HIZ
  	VCC_FOVI10.Set(FI, -0.01e-6f, FOVI_10V, FOVI_10UA, RELAY_ON);
  	delay_us(300);
@@ -291,9 +282,9 @@ DUT_API int RegulatorV(short funcindex, LPCTSTR funclabel)	{
 // ******************************************************************* UVLO *******************************************************************
 DUT_API int UVLO(short funcindex, LPCTSTR funclabel)	{
 	//{{AFX_STS_PARAM_PROTOTYPES
-    CParam *UVLO_Rising = StsGetParam(funcindex,"UVLO_Rising");
-    CParam *UVLO_Falling = StsGetParam(funcindex,"UVLO_Falling");
-    CParam *UVLO_VHYS = StsGetParam(funcindex,"UVLO_VHYS");
+  CParam *UVLO_Rising = StsGetParam(funcindex,"UVLO_Rising");
+  CParam *UVLO_Falling = StsGetParam(funcindex,"UVLO_Falling");
+  CParam *UVLO_VHYS = StsGetParam(funcindex,"UVLO_VHYS");
   //}}AFX_STS_PARAM_PROTOTYPES
 
   // TODO: Add your function code here
@@ -301,10 +292,8 @@ DUT_API int UVLO(short funcindex, LPCTSTR funclabel)	{
 	double GNG = UVLO_Rising->GetConditionCurSelDouble("goPassFail");	// 0: ramp	1:P/F
 	 
 	FreshSiteFlagInit();
-  rlyC.SetOn(RT500K, CapVCC, CapVIN, CapBST, 
-						 ViVIN, ViEN, ViFB, ViVCC, -1);
+  rlyC.SetOn(RT500K, CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, ViVCC, -1);
  	delay_ms(2);
-
 	// EN = 5v
 	EN_FOVI2.Set(FV, 5.0f, FOVI_5V, FOVI_10MA, RELAY_ON);
 	delay_us(300);
@@ -430,8 +419,7 @@ DUT_API int SupplyCurrent(short funcindex, LPCTSTR funclabel)	{
 	
 	rlyC.SetOn(-1);
 	delay_ms(1);
-	rlyC.SetOn(CapVCC, CapBST, //CapVIN,
-						 ViVIN, ViEN, ViFB, -1);
+	rlyC.SetOn(CapVCC, CapBST, ViVIN, ViEN, ViFB, -1);
  	delay_ms(2);
 
 	// VIN
@@ -456,13 +444,12 @@ DUT_API int SupplyCurrent(short funcindex, LPCTSTR funclabel)	{
 		if(vvtemp[site] > float(23.8))	{
 			VIN_FPVI0.MeasureVI(2000, 5);
 			IQ[site] = VIN_FPVI0.GetMeasResult(site, MIRET);
-			IQ[site] += float(20e-6);			// @.@"
+			IQ[site] += float(20e-6);			// @.@"		offset!!!
 		}
 	}
 
 	FreshSiteFlagInit();
-	rlyC.SetOn(ViVCC, ViEN, ViVIN,  
-						 CapVCC, CapVIN, CapBST, -1);
+	rlyC.SetOn(ViVCC, ViEN, ViVIN, CapVCC, CapVIN, CapBST, -1);
  	delay_ms(2);
 
 	// VIN
@@ -494,8 +481,7 @@ DUT_API int SupplyCurrent(short funcindex, LPCTSTR funclabel)	{
 	// ************************************** ISD **************************************
 	// ************************************** ISD **************************************
 	// ************************************** ISD **************************************
-	rlyC.SetOn(CapVIN, 
-						 ViEN, bridgeBST, ViSW, VIN2_SERV, -1);
+	rlyC.SetOn(CapVIN, ViEN, bridgeBST, ViSW, VIN2_SERV, -1);
  	delay_ms(2);
 	
 	// VIN = 48.0v
@@ -548,8 +534,7 @@ DUT_API int FuncEN(short funcindex, LPCTSTR funclabel)	{
 	FreshSiteFlagInit();
   float vv = 0.0f;
 	// VCC & VinCap, FPVI-VIN, FOVI-EN, FOVI-FB
-	rlyC.SetOn(CapVCC, CapVIN, CapBST, 
-						 ViVIN, ViEN, ViFB, -1);
+	rlyC.SetOn(CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, -1);
  	delay_ms(2);
 	
 	for(vv = 0.0f; vv <= 12.0f;)	{
@@ -573,7 +558,7 @@ DUT_API int FuncEN(short funcindex, LPCTSTR funclabel)	{
 	// FB
  	FB_FOVI8.Set(FI, -0.1e-6f, FOVI_5V, FOVI_10UA, RELAY_ON);
  	delay_ms(1);
-	// **************************** VEN_ON, GONOGO ****************************
+	// **************************** VEN_ON, GONOGO *****************************
 	if(GNG)	{
 	}
 	// **************************** VEN_ON, RAMPING ****************************
@@ -600,7 +585,7 @@ DUT_API int FuncEN(short funcindex, LPCTSTR funclabel)	{
 	// ************************************** EN OFF **************************************
 	// ************************************** EN OFF **************************************
 	FreshSiteFlagInit();
-	// **************************** VEN_OFF, GONOGO ****************************
+	// **************************** VEN_OFF, GONOGO *****************************
 	if(GNG)	{
 	}
 	// **************************** VEN_OFF, RAMPING ****************************
@@ -628,7 +613,6 @@ DUT_API int FuncEN(short funcindex, LPCTSTR funclabel)	{
 		VNEL		->SetTestResult(site, 0, VEN_OFF[site]);
 		VENHYS	->SetTestResult(site, 0, ((VEN_ON[site] - VEN_OFF[site])*1e3));
 	}
- 
 	VIN_FPVI0.Set(FV, 0.0, FPVI10_20V, FPVI10_10MA, RELAY_ON);
 	EN_FOVI2.Set(FV, 0.0f, FOVI_5V, FOVI_10MA, RELAY_ON);
 	FB_FOVI8.Set(FV, 0.0f, FOVI_5V, FOVI_10MA, RELAY_ON);
@@ -658,10 +642,7 @@ DUT_API int ReferenceVoltage(short funcindex, LPCTSTR funclabel)	{
 	double Vbg[SITENUM] = { 0.0f }, Vref[SITENUM] = { 0.0f };
 
 	// EnterTM, Vin = 24v
-	rlyC.SetOn(//RT500K, 
-						 CapVCC, CapVIN, CapBST,
-						 ViVIN, ViEN, ViFB,
-						 BST2_SERV, bridgeBST, -1);
+	rlyC.SetOn(CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, BST2_SERV, bridgeBST, -1);
  	delay_ms(2);
 	// VIN=24
 	VIN_FPVI0.Set(FV, 24.0f, FPVI10_50V, FPVI10_10A, RELAY_ON);
@@ -686,7 +667,6 @@ DUT_API int ReferenceVoltage(short funcindex, LPCTSTR funclabel)	{
 	FB_FOVI8.MeasureVI(60, 10);
 	for(site = 0; site < SITENUM; site++)
 		Vref[site] = FB_FOVI8.GetMeasResult(site, MVRET);
-
 	// ************************************** VBG **************************************
 	// ************************************** VBG **************************************
 	// ************************************** VBG **************************************
@@ -730,8 +710,7 @@ DUT_API int CurrentFB(short funcindex, LPCTSTR funclabel)	{
 	double Ifb[SITENUM] = { 0.0f };
   float vv = 0.0f;
 	// VCC & VinCap, FPVI-VIN, FOVI-EN, FOVI-FB
-	rlyC.SetOn(CapVCC, CapVIN, 
-						 ViVIN, ViEN, ViFB, -1);
+	rlyC.SetOn(CapVCC, CapVIN, ViVIN, ViEN, ViFB, -1);
  	delay_ms(2);
 	for(vv = 0.0f; vv <= 5.0f;)	{
 		// VIN
@@ -792,9 +771,7 @@ DUT_API int HSide(short funcindex, LPCTSTR funclabel)	{
 	double TMPV[SITENUM] = { 0.0f }, i = 0;
 	double iii[SITENUM] = { 0.0f };
   // TODO: Add your function code here
-	rlyC.SetOn(CapVCC, CapVIN, CapBST, 
-						 ViVIN, ViEN, ViFB, ViSW, 
-						 BST2_SERV, bridgeBST, -1);
+	rlyC.SetOn(CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, ViSW, BST2_SERV, bridgeBST, -1);
  	delay_ms(2);
 	// VIN=24
 	VIN_FPVI0.Set(FV, 24.0f, FPVI10_50V, FPVI10_1A, RELAY_ON);
@@ -907,26 +884,24 @@ DUT_API int HSide(short funcindex, LPCTSTR funclabel)	{
 	SW2_FPVI3.Set(FI,	-0.0f, FPVI10_50V, FPVI10_10A, RELAY_ON);
   delay_us(1000);
 	
-	VIN_FPVI0.Set(FV, 0.0f, FPVI10_50V, FPVI10_10A, RELAY_ON);
-	EN_FOVI2.Set(FV, 0.0f, FOVI_5V, FOVI_10MA, RELAY_ON);
-	FB_FOVI8.Set(FV, 0.0f, FOVI_10V, FOVI_1MA, RELAY_ON);
-	BST2_FOVI12.Set(FV, 0.0f, FOVI_10V, FOVI_10MA, RELAY_ON);
-	SW2_FPVI3.Set(FI,	0.0f, FPVI10_50V, FPVI10_10A, RELAY_ON);
+	VIN_FPVI0.Set		(FV, 0.0f, FPVI10_50V,	FPVI10_10A, RELAY_ON);
+	EN_FOVI2.Set		(FV, 0.0f, FOVI_5V,			FOVI_10MA,	RELAY_ON);
+	FB_FOVI8.Set		(FV, 0.0f, FOVI_10V,		FOVI_1MA,		RELAY_ON);
+	BST2_FOVI12.Set	(FV, 0.0f, FOVI_10V,		FOVI_10MA,	RELAY_ON);
+	SW2_FPVI3.Set		(FI, 0.0f, FPVI10_50V,	FPVI10_10A, RELAY_ON);
  	delay_ms(1);
-	VIN_FPVI0.Set(FV, 0.0f, FPVI10_50V, FPVI10_10A, RELAY_OFF);
-	EN_FOVI2.Set(FV, 0.0f, FOVI_5V, FOVI_10MA, RELAY_OFF);
-	FB_FOVI8.Set(FV, 0.0f, FOVI_10V, FOVI_1MA, RELAY_OFF);
-	BST2_FOVI12.Set(FV, 0.0f, FOVI_10V, FOVI_10MA, RELAY_OFF);
-	SW2_FPVI3.Set(FI,	0.0f, FPVI10_50V, FPVI10_10A, RELAY_OFF);
+	VIN_FPVI0.Set		(FV, 0.0f, FPVI10_50V,	FPVI10_10A,	RELAY_OFF);
+	EN_FOVI2.Set		(FV, 0.0f, FOVI_5V,			FOVI_10MA,	RELAY_OFF);
+	FB_FOVI8.Set		(FV, 0.0f, FOVI_10V,		FOVI_1MA,		RELAY_OFF);
+	BST2_FOVI12.Set	(FV, 0.0f, FOVI_10V,		FOVI_10MA,	RELAY_OFF);
+	SW2_FPVI3.Set		(FI, 0.0f, FPVI10_50V,	FPVI10_10A, RELAY_OFF);
  	delay_ms(1);
 	// ********************************************** EN=0 IPK0 **********************************************
 	// ********************************************** EN=0 IPK0 **********************************************
 	// ********************************************** EN=0 IPK0 **********************************************
 	// ************************************************************ IPK0, no transition high to low of FB
 	FreshSiteFlagInit();
-	rlyC.SetOn(CapVCC, CapVIN, CapBST, 
-						 ViVIN, ViEN, ViFB, ViSW, 
-						 BST2_SERV, bridgeBST, -1);
+	rlyC.SetOn(CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, ViSW, BST2_SERV, bridgeBST, -1);
  	delay_ms(2);
 	// VIN=24
 	VIN_FPVI0.Set(FV, 24.0f, FPVI10_50V, FPVI10_10A, RELAY_ON);
@@ -946,7 +921,6 @@ DUT_API int HSide(short funcindex, LPCTSTR funclabel)	{
 	delay_ms(1);
 	FB_FOVI8.Set(FV, 0.63f, FOVI_5V, FOVI_10UA, RELAY_ON);
 	delay_ms(1);
-
 	// EN = 0.0V		// *************************************************** TM1, 1ST EDGE
 	EN_FOVI2.Set(FV, 0.0f, FOVI_10V, FOVI_10MA, RELAY_ON);
 	delay_us(100);
@@ -1043,9 +1017,11 @@ DUT_API int HSide(short funcindex, LPCTSTR funclabel)	{
 	for(site = 0; site < SITENUM; site++)	{
 		TMPV[site] = VIN_FPVI0.GetMeasResult(site, MVRET);
 		if(TMPV[site] > float(99))	{
+			// SW
 			SW2_FPVI3.MeasureVI(200, 5);
-			//VIN_FPVI0.MeasureVI(200, 5);
 			HSLKG2[site] = SW2_FPVI3.GetMeasResult(site, MIRET);
+			// VIN
+			//VIN_FPVI0.MeasureVI(200, 5);
 			//HSLKG2[site] = VIN_FPVI0.GetMeasResult(site, MIRET);
 		}
 	}
@@ -1105,10 +1081,7 @@ DUT_API int LSide(short funcindex, LPCTSTR funclabel)	{
 	double iii[SITENUM] = { 0.0f };
 
   // TODO: Add your function code here
-	rlyC.SetOn(RT500K, 
-						 CapVCC, CapVIN, CapBST, 
-						 ViVIN, ViEN, ViFB, ViSW,
-						 BST2_SERV, bridgeBST, -1);
+	rlyC.SetOn(RT500K, CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, ViSW, BST2_SERV, bridgeBST, -1);
  	delay_ms(2);
 	// VIN=24
 	VIN_FPVI0.Set(FV, 24.0f, FPVI10_50V, FPVI10_1A, RELAY_ON);
@@ -1176,7 +1149,6 @@ DUT_API int LSide(short funcindex, LPCTSTR funclabel)	{
 	for(i = 0.1f; i < 0.7f;)	{	
 		SW2_FPVI3.Set(FI,	-i, FPVI10_50V, FPVI10_10A, RELAY_ON);
 		delay_us(500);
-
 		i += float(100e-3);
 	}
 
@@ -1220,9 +1192,7 @@ DUT_API int LSide(short funcindex, LPCTSTR funclabel)	{
 	// **************************************** IZX ****************************************
 	// **************************************** IZX ****************************************
 	// **************************************** IZX ****************************************
-	rlyC.SetOn(CapVCC, CapVIN, 
-						 ViVIN, ViEN, ViFB, ViSW, 
-						 BST2_SERV, bridgeBST, -1);
+	rlyC.SetOn(CapVCC, CapVIN, ViVIN, ViEN, ViFB, ViSW, BST2_SERV, bridgeBST, -1);
  	delay_ms(2);
 	// VIN=24
 	VIN_FPVI0.Set(FV, 24.0f, FPVI10_50V, FPVI10_1A, RELAY_ON);
@@ -1267,7 +1237,6 @@ DUT_API int LSide(short funcindex, LPCTSTR funclabel)	{
 	// EN = 0
 	EN_FOVI2.Set(FV, 0.0f, FOVI_5V, FOVI_1MA, RELAY_ON);
 	delay_ms(1);
-
 	// SW
 	SW2_FPVI3.Set(FI,	float(-0.12), FPVI10_50V, FPVI10_1A, RELAY_ON);
   delay_ms(1);
@@ -1282,7 +1251,6 @@ DUT_API int LSide(short funcindex, LPCTSTR funclabel)	{
 
 			TMPV[site] = FB_FOVI8.GetMeasResult(site, MVRET);
 			iii[site] = fabs(SW2_FPVI3.GetMeasResult(site, MIRET));
-
 			if ((TMPV[site] > 4.0) && (flag[site] == 0) && (iii[site] >= (i - 0.01)))	{
 				flag[site] = 1;
 				IZX[site] = i;
@@ -1303,17 +1271,26 @@ DUT_API int LSide(short funcindex, LPCTSTR funclabel)	{
 	pwr0v();
 	pwr_off();
 	delay_ms(2);
+
+	double kkk = 0.0f;
 	
 	rlyC.SetOn(CapVIN, CapVCC, ViVIN, ViEN, ViSW, -1);
  	delay_ms(2);
 
 	// VIN=100, FPVI_PLUS
+	for(kkk = 0.0f; kkk <= 100.0f;)	{
+		VIN_FPVI0.Set(FV, kkk, FPVI10_100V, FPVI10_10MA, RELAY_ON, 2);
+		SW2_FPVI3.Set(FV, kkk, FPVI10_100V, FPVI10_10MA, RELAY_ON, 2);
+		kkk += 5.0f;
+	}
 	VIN_FPVI0.Set(FV, 100.0f, FPVI10_100V, FPVI10_10MA, RELAY_ON);
+	////VIN_FPVI0.Set(FV, 40.0f, FPVI10_100V, FPVI10_10MA, RELAY_ON);
 	// EN = 0.0V
 	EN_FOVI2.Set(FV, 0.0f, FOVI_5V, FOVI_100UA, RELAY_ON);
 	delay_ms(5);
 	// SW=100, FPVI_PLUS
 	SW2_FPVI3.Set(FV, 100.0f, FPVI10_100V, FPVI10_10MA, RELAY_ON);
+	////SW2_FPVI3.Set(FV, 40.0f, FPVI10_100V, FPVI10_10MA, RELAY_ON);
 	
 	// EN = 0.0V
 	EN_FOVI2.Set(FV, 0.0f, FOVI_5V, FOVI_100UA, RELAY_SENSE_ON);		// =.="			"Orz...87 oh ~.~"
@@ -1323,15 +1300,16 @@ DUT_API int LSide(short funcindex, LPCTSTR funclabel)	{
 	for(site = 0; site < SITENUM; site++)	{
 		VIN_FPVI0.MeasureVI(10, 5);
 		TMPV_VIN[site] = VIN_FPVI0.GetMeasResult(site, MVRET);
-		SW2_FPVI3.MeasureVI(100, 5);
+		SW2_FPVI3.MeasureVI(10, 5);
 		TMPV_SW[site] = SW2_FPVI3.GetMeasResult(site, MVRET);
 		
 		if( (TMPV_SW[site] > float(99))&&(TMPV_VIN[site] > float(99)) )	{
+		////if( (TMPV_SW[site] > float(39))&&(TMPV_VIN[site] > float(39)) )	{
+			SW2_FPVI3.MeasureVI(500, 1);
 			LSLKG[site] = SW2_FPVI3.GetMeasResult(site, MIRET);
 			delay_us(1);
 		}
 	}
-
   for(site = 0; site < SITENUM; site++) {
 		RON_LS->SetTestResult(site, 0, lsron[site]);
 		IZero ->SetTestResult(site, 0, IZX[site]*1e3);
@@ -1361,9 +1339,9 @@ DUT_API int LSide(short funcindex, LPCTSTR funclabel)	{
 // ******************************************************************* Switching *******************************************************************
 DUT_API int Switching(short funcindex, LPCTSTR funclabel)	{
 	//{{AFX_STS_PARAM_PROTOTYPES
-    CParam *Freq = StsGetParam(funcindex,"Freq");
-    CParam *ON = StsGetParam(funcindex,"ON");
-    CParam *OFF = StsGetParam(funcindex,"OFF");
+  CParam *Freq = StsGetParam(funcindex,"Freq");
+  CParam *ON = StsGetParam(funcindex,"ON");
+  CParam *OFF = StsGetParam(funcindex,"OFF");
   //}}AFX_STS_PARAM_PROTOTYPES
 
   double FREQ[SITENUM] = { 0.0f };
@@ -1374,10 +1352,7 @@ DUT_API int Switching(short funcindex, LPCTSTR funclabel)	{
 	// ********************************* TestModeSettingSequenceStart *********************************
 	// EnterTM, Vin = 24.0v
 	// ResRT, VCC & VinCap, FPVI-VIN, FOVI-EN, FOVI-FB
-	rlyC.SetOn(RT500K,
-						 CapVCC, CapVIN, CapBST, 
-						 ViVIN, ViEN, ViFB, ViSW, 
-						 BST2_SERV, bridgeBST, -1);
+	rlyC.SetOn(RT500K, CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, ViSW, BST2_SERV, bridgeBST, -1);
  	delay_ms(2);
 	// VIN RAMP UP TO SETTING VALUE
 	VIN_FPVI0.Set(FV, 24.0f, FPVI10_50V, FPVI10_10A, RELAY_ON);
@@ -1412,11 +1387,7 @@ DUT_API int Switching(short funcindex, LPCTSTR funclabel)	{
  	EN_FOVI2.Set(FV, 0.0f, FOVI_5V, FOVI_100MA, RELAY_ON);
  	delay_us(100);
 	
-	rlyC.SetOn(RT500K, 
-						 CapVCC, CapVIN, CapBST, 
-						 VIN1KSW, 
-						 ViVIN, ViEN, ViSW, ViFB, 
-						 BST2_SERV, bridgeBST, qtmuFB, qtmuSWAP, -1);
+	rlyC.SetOn(RT500K, CapVCC, CapVIN, CapBST, VIN1KSW, ViVIN, ViEN, ViSW, ViFB, BST2_SERV, bridgeBST, qtmuFB, qtmuSWAP, -1);
  	delay_ms(2);
 	// FB = 6.5V
 	FB_FOVI8.Set(FV, 6.5f, FOVI_10V, FOVI_10MA, RELAY_ON);
@@ -1439,7 +1410,6 @@ DUT_API int Switching(short funcindex, LPCTSTR funclabel)	{
 	qtmu0.MeasFreq(QTMU_PLUS_COARSE, QTMU_PLUS_TRNG_US);
   for(site = 0; site < SITENUM; site++)
 		FREQ[site] = qtmu0.GetMeasureResult(site);
-
 	// **************************************** ON TIME ****************************************
 	qtmu0.SetStartTrigger(1.8f, QTMU_PLUS_POS_SLOPE);	
 	qtmu0.SetStopTrigger(1.6f, QTMU_PLUS_NEG_SLOPE);	
@@ -1447,7 +1417,6 @@ DUT_API int Switching(short funcindex, LPCTSTR funclabel)	{
 	qtmu0.Meas(QTMU_PLUS_COARSE, QTMU_PLUS_TRNG_US);
   for(site = 0; site < SITENUM; site++)
 		TON[site] = qtmu0.GetMeasureResult(site);
-
 	// **************************************** OFF TIME ****************************************
 	qtmu0.SetStartTrigger(1.8f, QTMU_PLUS_NEG_SLOPE);	
 	qtmu0.SetStopTrigger(2.5f, QTMU_PLUS_POS_SLOPE);	
@@ -1455,7 +1424,6 @@ DUT_API int Switching(short funcindex, LPCTSTR funclabel)	{
 	qtmu0.Meas(QTMU_PLUS_COARSE, QTMU_PLUS_TRNG_US);
   for(site = 0; site < SITENUM; site++)
 		TOFF[site] = qtmu0.GetMeasureResult(site);
-
 	// **************************************** LOG ***************************************
 	for(site = 0; site < SITENUM; site++) {
 		//Freq  ->SetTestResult(site, 0, FREQ[site]);     // Khz
@@ -1482,9 +1450,9 @@ DUT_API int Switching(short funcindex, LPCTSTR funclabel)	{
 // ******************************************************************* BOOST *******************************************************************
 DUT_API int BOOST(short funcindex, LPCTSTR funclabel)	{
 	//{{AFX_STS_PARAM_PROTOTYPES
-    CParam *BSTOK_H = StsGetParam(funcindex,"BSTOK_H");
-    CParam *BSTOK_L = StsGetParam(funcindex,"BSTOK_L");
-    CParam *BSTOK_HYS = StsGetParam(funcindex,"BSTOK_HYS");
+  CParam *BSTOK_H = StsGetParam(funcindex,"BSTOK_H");
+  CParam *BSTOK_L = StsGetParam(funcindex,"BSTOK_L");
+  CParam *BSTOK_HYS = StsGetParam(funcindex,"BSTOK_HYS");
   //}}AFX_STS_PARAM_PROTOTYPES
 
   // TODO: Add your function code here
@@ -1493,10 +1461,7 @@ DUT_API int BOOST(short funcindex, LPCTSTR funclabel)	{
 	double GNG = BSTOK_H->GetConditionCurSelDouble("goPassFail");	// 0: ramp	1:P/F
 	
 	FreshSiteFlagInit();
-	rlyC.SetOn(//RT500K, 
-						 CapVCC, CapVIN, CapBST, 
-						 ViVIN, ViEN, ViFB, ViSW, 
-						 BST2_SERV, bridgeBST, -1);
+	rlyC.SetOn(CapVCC, CapVIN, CapBST, ViVIN, ViEN, ViFB, ViSW, BST2_SERV, bridgeBST, -1);
  	delay_ms(2);
 	// VIN = 5V
 	VIN_FPVI0.Set(FV, 5.0f, FPVI10_50V, FPVI10_100MA, RELAY_ON);
@@ -1504,9 +1469,6 @@ DUT_API int BOOST(short funcindex, LPCTSTR funclabel)	{
 	// FB = 6.5V
 	FB_FOVI8.Set(FV, 6.5f, FOVI_10V, FOVI_10MA, RELAY_ON);
 	delay_ms(1);
-
-
-
 	// ************************************************************************************************************
 	// EN = 5.0V
  	EN_FOVI2.Set(FV, 5.0f, FOVI_5V, FOVI_10MA, RELAY_ON, 5);
@@ -1528,9 +1490,6 @@ DUT_API int BOOST(short funcindex, LPCTSTR funclabel)	{
  	EN_FOVI2.Set(FV, 0.0f, FOVI_5V, FOVI_10MA, RELAY_ON);
  	delay_us(100);
 	// ************************************************************************************************************
-	
-	
-	
 	// ************************************** BSTOK_HIGH **************************************
 	// ************************************** BSTOK_HIGH **************************************
 	// ************************************** BSTOK_HIGH **************************************
@@ -1551,7 +1510,6 @@ DUT_API int BOOST(short funcindex, LPCTSTR funclabel)	{
  	delay_us(500);
 	VIN_FPVI0.Set(FV, 24.0f, FPVI10_50V, FPVI10_100MA, RELAY_ON);
  	delay_us(500);
-	
 	// SW = 3V/100mA
 	SW2_FPVI3.Set(FV, 3.0f, FPVI10_10V, FPVI10_100MA, RELAY_ON);
  	delay_ms(1);
@@ -1633,22 +1591,22 @@ DUT_API int BOOST(short funcindex, LPCTSTR funclabel)	{
 // test11, PPTrim
 DUT_API int PPTrim(short funcindex, LPCTSTR funclabel)  {
   //{{AFX_STS_PARAM_PROTOTYPES
-    CParam *TB1 = StsGetParam(funcindex,"TB1");
-    CParam *TB2 = StsGetParam(funcindex,"TB2");
-    CParam *TB3 = StsGetParam(funcindex,"TB3");
-    CParam *TB4 = StsGetParam(funcindex,"TB4");
-    CParam *TB5 = StsGetParam(funcindex,"TB5");
-    CParam *TB6 = StsGetParam(funcindex,"TB6");
-    CParam *TB7 = StsGetParam(funcindex,"TB7");
-    CParam *TB8 = StsGetParam(funcindex,"TB8");
-    CParam *TB9 = StsGetParam(funcindex,"TB9");
-    CParam *TB10 = StsGetParam(funcindex,"TB10");
-    CParam *TB11 = StsGetParam(funcindex,"TB11");
-    CParam *TB12 = StsGetParam(funcindex,"TB12");
-    CParam *TB13 = StsGetParam(funcindex,"TB13");
-    CParam *TB14 = StsGetParam(funcindex,"TB14");
-    CParam *TB15 = StsGetParam(funcindex,"TB15");
-    CParam *TB16 = StsGetParam(funcindex,"TB16");
+  CParam *TB1 = StsGetParam(funcindex,"TB1");
+  CParam *TB2 = StsGetParam(funcindex,"TB2");
+  CParam *TB3 = StsGetParam(funcindex,"TB3");
+  CParam *TB4 = StsGetParam(funcindex,"TB4");
+  CParam *TB5 = StsGetParam(funcindex,"TB5");
+  CParam *TB6 = StsGetParam(funcindex,"TB6");
+  CParam *TB7 = StsGetParam(funcindex,"TB7");
+  CParam *TB8 = StsGetParam(funcindex,"TB8");
+  CParam *TB9 = StsGetParam(funcindex,"TB9");
+  CParam *TB10 = StsGetParam(funcindex,"TB10");
+  CParam *TB11 = StsGetParam(funcindex,"TB11");
+  CParam *TB12 = StsGetParam(funcindex,"TB12");
+  CParam *TB13 = StsGetParam(funcindex,"TB13");
+  CParam *TB14 = StsGetParam(funcindex,"TB14");
+  CParam *TB15 = StsGetParam(funcindex,"TB15");
+  CParam *TB16 = StsGetParam(funcindex,"TB16");
   //}}AFX_STS_PARAM_PROTOTYPES
 
   // TODO: Add your function code here
@@ -1665,13 +1623,13 @@ DUT_API int PPTrim(short funcindex, LPCTSTR funclabel)  {
 // ******************************************************************* postContinuity *******************************************************************
 DUT_API int pContinuity(short funcindex, LPCTSTR funclabel)	{
   //{{AFX_STS_PARAM_PROTOTYPES
-    CParam *EN_GND = StsGetParam(funcindex,"EN_GND");
-    CParam *VCC_GND = StsGetParam(funcindex,"VCC_GND");
-    CParam *RT_GND = StsGetParam(funcindex,"RT_GND");
-    CParam *FB_GND = StsGetParam(funcindex,"FB_GND");
-    CParam *BST_GND = StsGetParam(funcindex,"BST_GND");
-    CParam *SW_GND = StsGetParam(funcindex,"SW_GND");
-    CParam *VIN_GND = StsGetParam(funcindex,"VIN_GND");
+  CParam *EN_GND = StsGetParam(funcindex,"EN_GND");
+  CParam *VCC_GND = StsGetParam(funcindex,"VCC_GND");
+  CParam *RT_GND = StsGetParam(funcindex,"RT_GND");
+  CParam *FB_GND = StsGetParam(funcindex,"FB_GND");
+  CParam *BST_GND = StsGetParam(funcindex,"BST_GND");
+  CParam *SW_GND = StsGetParam(funcindex,"SW_GND");
+  CParam *VIN_GND = StsGetParam(funcindex,"VIN_GND");
   //}}AFX_STS_PARAM_PROTOTYPES
 
   // TODO: Add your function code here
@@ -1679,7 +1637,6 @@ DUT_API int pContinuity(short funcindex, LPCTSTR funclabel)	{
  	delay_ms(1);
  	rlyC.SetOn(ViEN, ViVCC, ViRT, ViFB, ViBST, ViSW, ViVIN, -1);
  	delay_ms(2);
- 	
  	// EN(#1)
  	EN_FOVI2.Set(FI, -1.0e-3, FOVI_2V, FOVI_10MA, RELAY_ON);
  	delay_us(500);
@@ -1687,7 +1644,6 @@ DUT_API int pContinuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		EN_GND->SetTestResult(site, 0, EN_FOVI2.GetMeasResult(site, MVRET));
  	EN_FOVI2.Set(FV, 0.0f, FOVI_2V, FOVI_10MA, RELAY_ON);
-
  	// VCC(#2)
  	VCC_FOVI10.Set(FI, -1.0e-3, FOVI_2V, FOVI_10MA, RELAY_ON);
  	delay_us(500);
@@ -1695,7 +1651,6 @@ DUT_API int pContinuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		VCC_GND->SetTestResult(site, 0, VCC_FOVI10.GetMeasResult(site, MVRET));
  	VCC_FOVI10.Set(FV, 0.0, FOVI_2V, FOVI_10MA, RELAY_ON);
-
  	// RT(#3)
  	RT_FOVI6.Set(FI, -1.0e-3, FOVI_2V, FOVI_10MA, RELAY_ON);
  	delay_us(500);
@@ -1703,7 +1658,6 @@ DUT_API int pContinuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		RT_GND->SetTestResult(site, 0, RT_FOVI6.GetMeasResult(site, MVRET));
  	RT_FOVI6.Set(FV, 0.0, FOVI_2V, FOVI_10MA, RELAY_ON);
-
  	// FB(#4)
  	FB_FOVI8.Set(FI, -160.0e-6, FOVI_2V, FOVI_1MA, RELAY_ON);
  	delay_us(500);
@@ -1711,7 +1665,6 @@ DUT_API int pContinuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		FB_GND->SetTestResult(site, 0, FB_FOVI8.GetMeasResult(site, MVRET));
  	FB_FOVI8.Set(FV, 0.0f, FOVI_2V, FOVI_1MA, RELAY_ON);
-
  	// BST(#5)
  	BST_FOVI7.Set(FI, -1.0e-3, FOVI_2V, FOVI_10MA, RELAY_ON);
  	delay_us(500);
@@ -1719,7 +1672,6 @@ DUT_API int pContinuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		BST_GND->SetTestResult(site, 0, BST_FOVI7.GetMeasResult(site, MVRET));
  	BST_FOVI7.Set(FV, 0.0, FOVI_2V, FOVI_10MA, RELAY_ON);
-
  	// SW(#6)
  	SW2_FPVI3.Set(FI, -1.0e-3, FPVI10_2V, FPVI10_10MA, RELAY_ON);
  	delay_us(500);
@@ -1727,7 +1679,6 @@ DUT_API int pContinuity(short funcindex, LPCTSTR funclabel)	{
  	for (site = 0; site < SITENUM; site++)
  		SW_GND->SetTestResult(site, 0, SW2_FPVI3.GetMeasResult(site, MVRET));
  	SW2_FPVI3.Set(FV, 0.0, FPVI10_2V, FPVI10_10MA, RELAY_ON);
-
  	// VIN(#8)
  	VIN_FPVI0.Set(FI, -0.5e-3, FPVI10_2V, FPVI10_10MA, RELAY_ON);
  	delay_us(500);
@@ -1758,8 +1709,7 @@ DUT_API int FuncEN2(short funcindex, LPCTSTR funclabel)	{
 	// ************************************** IENUP1(VEN=1V) **************************************
 	// ************************************** IENUP1(VEN=1V) **************************************
 	// ************************************** IENUP1(VEN=1V) **************************************
-	rlyC.SetOn(CapVCC, CapVIN, 
-						 ViVIN, ViEN, -1);
+	rlyC.SetOn(CapVCC, CapVIN, ViVIN, ViEN, -1);
  	delay_ms(2);
 	// VIN = 24
 	VIN_FPVI0.Set(FV, 24.0f, FPVI10_50V, FPVI10_10MA, RELAY_ON);
@@ -1783,9 +1733,7 @@ DUT_API int FuncEN2(short funcindex, LPCTSTR funclabel)	{
  	rlyC.SetOn(-1);
  	delay_ms(1);
 
-	rlyC.SetOn(CapVCC, CapVIN, CapBST, 
-             SW10KGND,                // SW-QTMUA and SW series 10K to GND
-             ViVIN, -1);
+	rlyC.SetOn(CapVCC, CapVIN, CapBST, SW10KGND, ViVIN, -1);
  	delay_ms(2);
 	
 	for(vv = 0.0f; vv <= 12.0f;)	{

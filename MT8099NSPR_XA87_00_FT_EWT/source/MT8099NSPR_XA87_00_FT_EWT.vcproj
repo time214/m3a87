@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="MT8099NSPR_XA87_00_FT_EWT"
-	ProjectGUID="{E12FD43A-833F-4610-8DF5-6F0094DE69FF}"
+	ProjectGUID="{2D2BD2AD-901B-4FFC-A161-1274E7506D58}"
 	>
 	<Platforms>
 		<Platform
@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="C:\AccoTest\STS8200CROSS\INCLude;"
+				AdditionalIncludeDirectories="C:\AccoTest\STS8200CROSS\INCLude"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MT8099NSPR_XA87_00_FT_EWT_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -79,7 +79,7 @@
 				OutputFile="../MT8099NSPR_XA87_00_FT_EWT.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="C:\AccoTest\STS8200CROSS\lIB;"
+				AdditionalLibraryDirectories="C:\AccoTest\STS8200CROSS\lIB"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\debug/MT8099NSPR_XA87_00_FT_EWT.pdb"
 				ImportLibrary=".\debug/MT8099NSPR_XA87_00_FT_EWT.lib"
@@ -147,7 +147,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="C:\AccoTest\STS8200CROSS\INCLude;"
+				AdditionalIncludeDirectories="C:\AccoTest\STS8200CROSS\INCLude"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;MT8099NSPR_XA87_00_FT_EWT_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -178,7 +178,7 @@
 				OutputFile="../MT8099NSPR_XA87_00_FT_EWT.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="C:\AccoTest\STS8200CROSS\lIB;"
+				AdditionalLibraryDirectories="C:\AccoTest\STS8200CROSS\lIB"
 				ProgramDatabaseFile=".\Release/MT8099NSPR_XA87_00_FT_EWT.pdb"
 				ImportLibrary=".\Release/MT8099NSPR_XA87_00_FT_EWT.lib"
 				TargetMachine="1"

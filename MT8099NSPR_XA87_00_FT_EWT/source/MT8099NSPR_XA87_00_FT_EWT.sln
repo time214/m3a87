@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual C++ Express 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MT8099NSPR_XA87_00_FT_EWT", "MT8099NSPR_XA87_00_FT_EWT.vcproj", "{E12FD43A-833F-4610-8DF5-6F0094DE69FF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MT8099NSPR_XA87_00_FT_EWT", "MT8099NSPR_XA87_00_FT_EWT.vcproj", "{2D2BD2AD-901B-4FFC-A161-1274E7506D58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E12FD43A-833F-4610-8DF5-6F0094DE69FF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E12FD43A-833F-4610-8DF5-6F0094DE69FF}.Debug|Win32.Build.0 = Debug|Win32
-		{E12FD43A-833F-4610-8DF5-6F0094DE69FF}.Release|Win32.ActiveCfg = Release|Win32
-		{E12FD43A-833F-4610-8DF5-6F0094DE69FF}.Release|Win32.Build.0 = Release|Win32
+		{2D2BD2AD-901B-4FFC-A161-1274E7506D58}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2D2BD2AD-901B-4FFC-A161-1274E7506D58}.Debug|Win32.Build.0 = Debug|Win32
+		{2D2BD2AD-901B-4FFC-A161-1274E7506D58}.Release|Win32.ActiveCfg = Release|Win32
+		{2D2BD2AD-901B-4FFC-A161-1274E7506D58}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
